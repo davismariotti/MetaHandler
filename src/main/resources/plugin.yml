@@ -1,0 +1,8 @@
+main: info.gomeow.metahandler.MetaHandler
+name: MetaHandler
+version: 1.0.0
+
+commands:
+  mh:
+    description: All MetaHandler commands
+    aliases: [meta, metahandler]
