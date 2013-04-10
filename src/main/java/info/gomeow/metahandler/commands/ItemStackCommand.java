@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,16 +16,25 @@ public class ItemStackCommand implements BaseCommand {
     @Override
     public boolean execute(CommandSender sender, Command cmdObj, String label, String cmd, LinkedList<String> args) {
         Player p = (Player) sender;
-        if(cmd.equalsIgnoreCase("displayname")) {
+        ItemStack is = p.getItemInHand();
+        if(is.getTypeId() == 0) {
+            p.sendMessage(ChatColor.RED + "You must be holding an item!");
+            return true;
+        }
+        if(cmd.equalsIgnoreCase("display")) {
             if(args.size() >= 1) {
                 StringBuilder sb = new StringBuilder();
                 for(String arg:args) {
                     sb.append(arg).append(" ");
                 }
-                ItemStack is = p.getItemInHand();
                 p.setItemInHand(ItemUtil.setDisplayName(is, sb.toString().trim()));
                 p.sendMessage(ChatColor.GOLD + "Display name changed!");
+            } else {
+                p.sendMessage(ChatColor.RED + "Usage: /" + label.toLowerCase() + " item " + cmd.toLowerCase() + " <name>");
             }
+        } else if(cmd.equalsIgnoreCase("displayclr") || cmd.equalsIgnoreCase("displayclear")) {
+            p.setItemInHand(ItemUtil.clearDisplayName(is));
+            p.sendMessage(ChatColor.GOLD + "Display name cleared!");
         } else if(cmd.equalsIgnoreCase("lore")) {
             if(args.size() >= 2) {
                 int line = 0;
@@ -32,7 +42,7 @@ public class ItemStackCommand implements BaseCommand {
                     line = Integer.parseInt(args.get(0));
                 } catch (NumberFormatException nfe) {
                     p.sendMessage(ChatColor.RED + "Line # must be a number!");
-                    p.sendMessage(ChatColor.RED + "Usage: /" + label + " <Line #> <Text for the line>");
+                    p.sendMessage(ChatColor.RED + "Usage: /" + label + " item " + cmd.toLowerCase() + " <Line #> <Text for the line>");
                     return true;
                 }
                 StringBuilder sb = new StringBuilder();
@@ -40,10 +50,68 @@ public class ItemStackCommand implements BaseCommand {
                     if(arg != args.get(0))
                         sb.append(arg).append(" ");
                 }
-                ItemStack is = p.getItemInHand();
                 p.setItemInHand(ItemUtil.setLore(is, line, sb.toString().trim()));
                 p.sendMessage(ChatColor.GOLD + "Lore changed!");
+            } else {
+                p.sendMessage(ChatColor.RED + "Usage: /" + label + " item " + cmd.toLowerCase() + " <Line #> <Text for the line>");
             }
+        } else if(cmd.equalsIgnoreCase("loreclr") || cmd.equalsIgnoreCase("loreclear")) {
+            p.setItemInHand(ItemUtil.clearLore(is));
+            p.sendMessage(ChatColor.GOLD + "Lore cleared!");
+        } else if(cmd.equalsIgnoreCase("enchant")) {
+            if(args.size() == 2) {
+                Enchantment e = ItemUtil.getEnchantment(args.get(0));
+                if(e == null) {
+                    StringBuilder enchantments = new StringBuilder();
+                    for(String ench:ItemUtil.getEnchantments()) {
+                        enchantments.append(ench.toLowerCase().replace('_', '-')).append(", ");
+                    }
+                    p.sendMessage(ChatColor.RED + "Invalid enchantment!");
+                    p.sendMessage(ChatColor.GOLD + "Valid enchantments: " + enchantments.toString().substring(0, enchantments.toString().length() - 2));
+                    return true;
+                }
+                int level = 0;
+                try {
+                    level = Integer.parseInt(args.get(1));
+                } catch(NumberFormatException nfe) {
+                    p.sendMessage(ChatColor.RED + "Enchantment level must be a number!");
+                    p.sendMessage(ChatColor.RED + "Usage: /" + label + " item <Enchantment> <level>");
+                    return true;
+                }
+                is.addUnsafeEnchantment(e, level);
+                p.setItemInHand(is);
+                p.sendMessage(ChatColor.GOLD + "Added enchantment!");
+            } else {
+                
+            }
+        } else if(cmd.equalsIgnoreCase("enchantdel")) {
+            if(args.size() == 1) {
+                Enchantment e = ItemUtil.getEnchantment(args.get(0));
+                if(e == null) {
+                    StringBuilder enchantments = new StringBuilder();
+                    for(String ench:ItemUtil.getEnchantments()) {
+                        enchantments.append(ench.toLowerCase().replace('_', '-')).append(", ");
+                    }
+                    p.sendMessage(ChatColor.RED + "Invalid enchantment!");
+                    p.sendMessage(ChatColor.GOLD + "Valid enchantments: " + enchantments.toString().substring(0, enchantments.toString().length() - 2));
+                    return true;
+                }
+                if(is.containsEnchantment(e)) {
+                    is.removeEnchantment(e);
+                    p.sendMessage(ChatColor.GOLD + "Removed enchantment!");
+                } else {
+                    
+                }
+            } else {
+                
+            }
+        } else if(cmd.equalsIgnoreCase("enchantclr") || cmd.equalsIgnoreCase("enchantclear")) {
+            p.setItemInHand(ItemUtil.clearEnchantments(is));
+            p.sendMessage(ChatColor.GOLD + "Enchantments cleared!");
+        }
+        else if(cmd.equalsIgnoreCase("clear")) {
+            p.setItemInHand(ItemUtil.clearMeta(is));
+            p.sendMessage(ChatColor.GOLD + "Item Meta cleared!");
         } else {
             p.sendMessage(ChatColor.RED + "That is not a supported command!");
         }
