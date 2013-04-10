@@ -16,7 +16,7 @@ public class SkullCommand implements BaseCommand {
         if(is.getItemMeta() instanceof SkullMeta) {
             SkullMeta sm = (SkullMeta) is.getItemMeta();
             if(cmd.equalsIgnoreCase("owner")) {
-                if(args.size() > 1) {
+                if(args.size() > 0) {
                     sm.setOwner(args.get(0));
                     is.setItemMeta(sm);
                     p.setItemInHand(is);
