@@ -21,7 +21,7 @@ public class ItemUtil {
         enchants.put("PROTECTION", Enchantment.PROTECTION_ENVIRONMENTAL);
         enchants.put("BLAST_PROTECTION", Enchantment.PROTECTION_EXPLOSIONS);
         enchants.put("PROJECTILE_PROTECTION", Enchantment.PROTECTION_PROJECTILE);
-        enchants.put("OXYGEN", Enchantment.OXYGEN);
+        enchants.put("RESPIRATION", Enchantment.OXYGEN);
         enchants.put("INFINITY", Enchantment.ARROW_INFINITE);
         enchants.put("AQUA_AFFINITY", Enchantment.WATER_WORKER);
         enchants.put("UNBREAKING", Enchantment.DURABILITY);
