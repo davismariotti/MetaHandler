@@ -93,6 +93,21 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
                     }   
                 }
+            } else if(cmd.equalsIgnoreCase("book")) {
+                if(args.length == 1) {
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book color <enchantment> <level> - Adds an enchantment.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book color <r> <g> <b> - Sets the color.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book clear - Sets the color to default.");
+                } else {
+                    if(sender instanceof Player) {
+                        LinkedList<String> list = new LinkedList<String>(Arrays.asList(args));
+                        list.pollFirst();
+                        list.pollFirst();
+                        return new BookCommand().execute((Player) sender, cmdObj, label, args[1], list);
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+                    }   
+                }
             }
         }
         return true;
