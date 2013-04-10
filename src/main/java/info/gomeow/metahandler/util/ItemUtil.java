@@ -31,6 +31,7 @@ public class ItemUtil {
         enchants.put("FIRE_ASPECT", Enchantment.FIRE_ASPECT);
         enchants.put("SILK_TOUCH", Enchantment.SILK_TOUCH);
         enchants.put("FORTUNE", Enchantment.LOOT_BONUS_BLOCKS);
+        enchants.put("LOOTING", Enchantment.LOOT_BONUS_MOBS);
         enchants.put("PUNCH", Enchantment.ARROW_KNOCKBACK);
         enchants.put("FLAME", Enchantment.ARROW_FIRE);
     }
