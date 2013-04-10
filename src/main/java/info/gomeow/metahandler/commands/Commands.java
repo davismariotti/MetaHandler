@@ -37,6 +37,9 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(ChatColor.GOLD + "/" + label + " item displayclear - Clears the display name on the item");
                     sender.sendMessage(ChatColor.GOLD + "/" + label + " item lore <line #> <Text to be display name> - Sets the lore on that line.");
                     sender.sendMessage(ChatColor.GOLD + "/" + label + " item loreclear - Clears the lore on that item.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " item enchant <enchantment> <level> - Adds the specified enchantment on the item.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " item enchantdel - Removes the specified item from the item.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " item enchantclear - Clears the enchantments on that item.");
                     sender.sendMessage(ChatColor.GOLD + "/" + label + " item clear - Clears all the meta on that item.");
                 } else {
                     if(sender instanceof Player) {

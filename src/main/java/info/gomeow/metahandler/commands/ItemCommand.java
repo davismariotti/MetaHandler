@@ -80,7 +80,7 @@ public class ItemCommand implements BaseCommand {
                 p.setItemInHand(is);
                 p.sendMessage(ChatColor.GOLD + "Added enchantment!");
             } else {
-                
+                p.sendMessage(ChatColor.GOLD + "/" + label + " item enchant <enchantment> <level>");
             }
         } else if(cmd.equalsIgnoreCase("enchantdel")) {
             if(args.size() == 1) {
@@ -98,10 +98,10 @@ public class ItemCommand implements BaseCommand {
                     is.removeEnchantment(e);
                     p.sendMessage(ChatColor.GOLD + "Removed enchantment!");
                 } else {
-                    
+                    p.sendMessage(ChatColor.RED + "That enchantment is not on the item!");
                 }
             } else {
-                
+                p.sendMessage(ChatColor.RED + "/" + label + " item enchantdel - Removes the specified item from the item.");
             }
         } else if(cmd.equalsIgnoreCase("enchantclr") || cmd.equalsIgnoreCase("enchantclear")) {
             p.setItemInHand(ItemUtil.clearEnchantments(is));
