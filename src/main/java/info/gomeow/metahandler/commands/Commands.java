@@ -23,26 +23,39 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmdObj, String label, String[] args) {
         if(args.length == 0) {
             sender.sendMessage(ChatColor.GOLD + " --- MetaHandler Help --- ");
-            sender.sendMessage(ChatColor.GOLD + "/mh - Aliases: /meta, /metahandler");
-            sender.sendMessage(ChatColor.GOLD + "/mh item - Regular item commands.");
+            sender.sendMessage(ChatColor.GOLD + "/" + label + " - Aliases: /meta, /metahandler");
+            sender.sendMessage(ChatColor.GOLD + "/" + label + " item - Regular item commands.");
+            sender.sendMessage(ChatColor.GOLD + "/" + label + " skull - Skull commands.");
         } else {
             String cmd = args[0];
             if(cmd.equalsIgnoreCase("item")) {
                 if(args.length == 1) {
-                    sender.sendMessage(ChatColor.GOLD + "/mh item display <Text to be display name> - Sets the display name on the item");
-                    sender.sendMessage(ChatColor.GOLD + "/mh item lore <line #> <Text to be display name> - Sets the lore on that line.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " item display <Text to be display name> - Sets the display name on the item");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " item lore <line #> <Text to be display name> - Sets the lore on that line.");
                 } else {
                     if(sender instanceof Player) {
                         LinkedList<String> list = new LinkedList<String>(Arrays.asList(args));
                         list.pollFirst();
                         list.pollFirst();
-                        new ItemStackCommand().execute(sender, cmdObj, label, args[1], list);
+                        return new ItemCommand().execute((Player) sender, cmdObj, label, args[1], list);
                     } else {
                         sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
                     }   
                 }
             } else if(cmd.equalsIgnoreCase("skull")) {
-                
+                if(args.length == 1) {
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " skull owner <name> - Sets the owner.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " item clear - Clears the owner.");
+                } else {
+                    if(sender instanceof Player) {
+                        LinkedList<String> list = new LinkedList<String>(Arrays.asList(args));
+                        list.pollFirst();
+                        list.pollFirst();
+                        return new SkullCommand().execute((Player) sender, cmdObj, label, args[1], list);
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+                    }   
+                }
             }
         }
         return true;

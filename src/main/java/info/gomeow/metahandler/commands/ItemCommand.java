@@ -6,16 +6,14 @@ import java.util.LinkedList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class ItemStackCommand implements BaseCommand {
+public class ItemCommand implements BaseCommand {
 
     @Override
-    public boolean execute(CommandSender sender, Command cmdObj, String label, String cmd, LinkedList<String> args) {
-        Player p = (Player) sender;
+    public boolean execute(Player p, Command cmdObj, String label, String cmd, LinkedList<String> args) {
         ItemStack is = p.getItemInHand();
         if(is.getTypeId() == 0) {
             p.sendMessage(ChatColor.RED + "You must be holding an item!");
