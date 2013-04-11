@@ -3,6 +3,7 @@ package info.gomeow.metahandler.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.enchantments.Enchantment;
@@ -64,8 +65,18 @@ public class ItemUtil {
             loreArray[line - 1] = data;
             im.setLore(Arrays.asList(loreArray));
         }
-        is.setItemMeta(im);
+        is.setItemMeta(trimLore(im));
         return is;
+    }
+    
+    public static ItemMeta trimLore(ItemMeta im) {
+        List<String> lore = im.getLore();
+        LinkedList<String> list = new LinkedList<String>(lore);
+        while(list.peekLast().equalsIgnoreCase(" ")) {
+            list.pollLast();
+        }
+        im.setLore(lore);
+        return im;
     }
     
     public static ItemStack clearLore(ItemStack is) {

@@ -43,6 +43,10 @@ public class ItemCommand implements BaseCommand {
                     p.sendMessage(ChatColor.RED + "Usage: /" + label + " item " + cmd.toLowerCase() + " <Line #> <Text for the line>");
                     return true;
                 }
+                if(line >= 5) {
+                    p.sendMessage(ChatColor.RED + "You can only set lines 1-5 of the lore!");
+                    return true;
+                }
                 StringBuilder sb = new StringBuilder();
                 for(String arg:args) {
                     if(arg != args.get(0))
