@@ -20,6 +20,43 @@ public class BookCommand implements BaseCommand {
         ItemStack is = p.getItemInHand();
         if(is.getItemMeta() instanceof BookMeta) {
             BookMeta bm = (BookMeta) is.getItemMeta();
+            if(is.getType() == Material.WRITTEN_BOOK) {
+                if(cmd.equalsIgnoreCase("unsign")) {
+                    is.setType(Material.BOOK_AND_QUILL);
+                    p.setItemInHand(is);
+                    p.sendMessage(ChatColor.GOLD + "Book unsigned!");
+                } else if(cmd.equalsIgnoreCase("author")) {
+                    if(args.size() > 0) {
+                        StringBuilder sb = new StringBuilder();
+                        for(String arg:args) {
+                            sb.append(arg).append(" ");
+                        }
+                        bm.setAuthor(sb.toString().trim());
+                        is.setItemMeta(bm);
+                        p.setItemInHand(is);
+                        p.sendMessage(ChatColor.GOLD + "Author set!");
+                    } else {
+                        p.sendMessage(ChatColor.RED + "Usage: /" + label + " book author <name>");
+                    }
+                } else if(cmd.equalsIgnoreCase("title")) {
+                    if(args.size() > 0) {
+                        StringBuilder sb = new StringBuilder();
+                        for(String arg:args) {
+                            sb.append(arg).append(" ");
+                        }
+                        bm.setTitle(sb.toString().trim());
+                        is.setItemMeta(bm);
+                        p.setItemInHand(is);
+                        p.sendMessage(ChatColor.GOLD + "Title set!");
+                    } else {
+                        p.sendMessage(ChatColor.RED + "Usage: /" + label + " book author <name>");
+                    }
+                } else {
+                    p.sendMessage(ChatColor.RED + "That is not a supported command!");
+                }
+            } else {
+                p.sendMessage(ChatColor.RED + "You must be holding a signed book to do that!");
+            }
         } else if(is.getType() == Material.BOOK || is.getType() == Material.ENCHANTED_BOOK) {
             if(cmd.equalsIgnoreCase("enchant")) {
                 if(args.get(0).equalsIgnoreCase("add")) {

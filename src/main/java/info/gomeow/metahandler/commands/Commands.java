@@ -21,6 +21,7 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmdObj, String label, String[] args) {
+        label = label.toLowerCase();
         if(args.length == 0) {
             sender.sendMessage(ChatColor.GOLD + " --- MetaHandler Help --- ");
             sender.sendMessage(ChatColor.GOLD + "/" + label + " - Aliases: /meta, /metahandler");
@@ -28,6 +29,7 @@ public class Commands implements CommandExecutor {
             sender.sendMessage(ChatColor.GOLD + "/" + label + " skull - Skull commands.");
             sender.sendMessage(ChatColor.GOLD + "/" + label + " map - Map commands.");
             sender.sendMessage(ChatColor.GOLD + "/" + label + " leather - Leather armor commands.");
+            sender.sendMessage(ChatColor.GOLD + "/" + label + " book - Book commands.");
             sender.sendMessage(ChatColor.GOLD + " ------------------------ ");
         } else {
             String cmd = args[0];
@@ -95,9 +97,12 @@ public class Commands implements CommandExecutor {
                 }
             } else if(cmd.equalsIgnoreCase("book")) {
                 if(args.length == 1) {
-                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book color <enchantment> <level> - Adds an enchantment.");
-                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book color <r> <g> <b> - Sets the color.");
-                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book clear - Sets the color to default.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book enchant add <enchantment> <level> - Adds a stored enchantment.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book enchant del <enchantment> - Removes a stored enchantment.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book enchant clear - Clears stored enchantments.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book author <name> - Sets the author.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book title <title> - Sets the title.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " book unsign - Unsigns the book.");
                 } else {
                     if(sender instanceof Player) {
                         LinkedList<String> list = new LinkedList<String>(Arrays.asList(args));
