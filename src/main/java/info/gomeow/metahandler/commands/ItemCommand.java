@@ -21,18 +21,25 @@ public class ItemCommand implements BaseCommand {
         }
         if(cmd.equalsIgnoreCase("display")) {
             if(args.size() >= 1) {
-                StringBuilder sb = new StringBuilder();
-                for(String arg:args) {
-                    sb.append(arg).append(" ");
+                if(args.get(0).equalsIgnoreCase("set")) {
+                    if(args.size() >= 2) {
+                        StringBuilder sb = new StringBuilder();
+                        for(String arg:args) {
+                            if(!arg.equals(args.get(0)))
+                                sb.append(arg).append(" ");
+                        }
+                        p.setItemInHand(ItemUtil.setDisplayName(is, sb.toString().trim()));
+                        p.sendMessage(ChatColor.GOLD + "Display name changed!");
+                    } else {
+                        p.sendMessage(ChatColor.RED + "Usage: /" + label.toLowerCase() + " item display set <name>");
+                    }
+                } else if(args.get(0).equalsIgnoreCase("clear")) {
+                    p.setItemInHand(ItemUtil.clearDisplayName(is));
+                    p.sendMessage(ChatColor.GOLD + "Display name cleared!");
+                } else {
+                    p.sendMessage(ChatColor.RED + "That is not a supported command!");
                 }
-                p.setItemInHand(ItemUtil.setDisplayName(is, sb.toString().trim()));
-                p.sendMessage(ChatColor.GOLD + "Display name changed!");
-            } else {
-                p.sendMessage(ChatColor.RED + "Usage: /" + label.toLowerCase() + " item " + cmd.toLowerCase() + " <name>");
             }
-        } else if(cmd.equalsIgnoreCase("displayclr") || cmd.equalsIgnoreCase("displayclear")) {
-            p.setItemInHand(ItemUtil.clearDisplayName(is));
-            p.sendMessage(ChatColor.GOLD + "Display name cleared!");
         } else if(cmd.equalsIgnoreCase("lore")) {
             if(args.size() >= 2) {
                 int line = 0;
