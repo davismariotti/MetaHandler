@@ -11,9 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemUtil {
-    
+
     private static HashMap<String, Enchantment> enchants = new HashMap<String, Enchantment>();
-    
+
     static {
         enchants.put("SHARPNESS", Enchantment.DAMAGE_ALL);
         enchants.put("POWER", Enchantment.ARROW_DAMAGE);
@@ -43,7 +43,7 @@ public class ItemUtil {
         is.setItemMeta(im);
         return is;
     }
-    
+
     public static ItemStack clearDisplayName(ItemStack is) {
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(null);
@@ -55,7 +55,7 @@ public class ItemUtil {
         ItemMeta im = is.getItemMeta();
         if(im.hasLore()) {
             List<String> lore = im.getLore();
-            while(lore.size() < line) {
+            while (lore.size() < line) {
                 lore.add(" ");
             }
             lore.set(line - 1, data);
@@ -68,31 +68,31 @@ public class ItemUtil {
         is.setItemMeta(trimLore(im));
         return is;
     }
-    
+
     public static ItemMeta trimLore(ItemMeta im) {
         List<String> lore = im.getLore();
         LinkedList<String> list = new LinkedList<String>(lore);
-        while(list.peekLast().equalsIgnoreCase(" ")) {
+        while (list.peekLast().equalsIgnoreCase(" ")) {
             list.pollLast();
         }
         im.setLore(lore);
         return im;
     }
-    
+
     public static ItemStack clearLore(ItemStack is) {
         ItemMeta im = is.getItemMeta();
         im.setLore(null);
         is.setItemMeta(im);
         return is;
     }
-    
+
     public static ItemStack clearMeta(ItemStack is) {
         is = clearEnchantments(is);
         is = clearLore(is);
         is = clearDisplayName(is);
         return is;
     }
-    
+
     public static Enchantment getEnchantment(String ench) {
         ench = ench.toUpperCase().replace('-', '_');
         Enchantment e = Enchantment.getByName(ench);
@@ -110,7 +110,7 @@ public class ItemUtil {
         }
         return e;
     }
-    
+
     public static List<String> getEnchantments() {
         List<String> list = new ArrayList<String>();
         for(String key:enchants.keySet()) {
@@ -118,7 +118,7 @@ public class ItemUtil {
         }
         return list;
     }
-    
+
     public static ItemStack clearEnchantments(ItemStack is) {
         for(Enchantment ench:is.getEnchantments().keySet()) {
             is.removeEnchantment(ench);

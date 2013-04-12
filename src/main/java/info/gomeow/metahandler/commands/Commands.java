@@ -51,12 +51,12 @@ public class Commands implements CommandExecutor {
                         return new ItemCommand().execute((Player) sender, cmdObj, label, args[1], list);
                     } else {
                         sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
-                    }   
+                    }
                 }
             } else if(cmd.equalsIgnoreCase("skull")) {
                 if(args.length == 1) {
                     sender.sendMessage(ChatColor.GOLD + "/" + label + " skull owner <name> - Sets the owner.");
-                    sender.sendMessage(ChatColor.GOLD + "/" + label + " item clear - Clears the owner.");
+                    sender.sendMessage(ChatColor.GOLD + "/" + label + " skull clear - Clears the owner.");
                 } else {
                     if(sender instanceof Player) {
                         LinkedList<String> list = new LinkedList<String>(Arrays.asList(args));
@@ -65,7 +65,7 @@ public class Commands implements CommandExecutor {
                         return new SkullCommand().execute((Player) sender, cmdObj, label, args[1], list);
                     } else {
                         sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
-                    }   
+                    }
                 }
             } else if(cmd.equalsIgnoreCase("map")) {
                 if(args.length == 1) {
@@ -78,7 +78,7 @@ public class Commands implements CommandExecutor {
                         return new MapCommand().execute((Player) sender, cmdObj, label, args[1], list);
                     } else {
                         sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
-                    }   
+                    }
                 }
             } else if(cmd.equalsIgnoreCase("leather")) {
                 if(args.length == 1) {
@@ -93,7 +93,7 @@ public class Commands implements CommandExecutor {
                         return new LeatherCommand().execute((Player) sender, cmdObj, label, args[1], list);
                     } else {
                         sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
-                    }   
+                    }
                 }
             } else if(cmd.equalsIgnoreCase("book")) {
                 if(args.length == 1) {
@@ -111,7 +111,7 @@ public class Commands implements CommandExecutor {
                         return new BookCommand().execute((Player) sender, cmdObj, label, args[1], list);
                     } else {
                         sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
-                    }   
+                    }
                 }
             }
         }

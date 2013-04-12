@@ -18,7 +18,7 @@ public class MapCommand implements BaseCommand {
             if(cmd.equalsIgnoreCase("scaling")) {
                 if(args.size() > 0) {
                     boolean scale;
-                    if(args.get(0).equalsIgnoreCase("true")){
+                    if(args.get(0).equalsIgnoreCase("true")) {
                         scale = true;
                     } else if(args.get(0).equalsIgnoreCase("false")) {
                         scale = false;

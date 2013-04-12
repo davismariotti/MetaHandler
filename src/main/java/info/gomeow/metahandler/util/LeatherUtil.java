@@ -6,7 +6,7 @@ import java.util.Set;
 import org.bukkit.Color;
 
 public class LeatherUtil {
-    
+
     private static HashMap<String, Color> colors = new HashMap<String, Color>();
 
     static {
@@ -28,15 +28,14 @@ public class LeatherUtil {
         colors.put("WHITE", Color.WHITE);
         colors.put("YELLOW", Color.YELLOW);
     }
-    
-    
+
     public static Color toColor(String s) {
         if(colors.containsKey(s.toUpperCase())) {
             return colors.get(s.toUpperCase());
         }
         return null;
     }
-    
+
     public static Set<String> getColors() {
         return colors.keySet();
     }

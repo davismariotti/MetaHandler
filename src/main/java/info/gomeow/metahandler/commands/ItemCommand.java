@@ -38,7 +38,7 @@ public class ItemCommand implements BaseCommand {
                 int line = 0;
                 try {
                     line = Integer.parseInt(args.get(0));
-                } catch (NumberFormatException nfe) {
+                } catch(NumberFormatException nfe) {
                     p.sendMessage(ChatColor.RED + "Line # must be a number!");
                     p.sendMessage(ChatColor.RED + "Usage: /" + label + " item " + cmd.toLowerCase() + " <Line #> <Text for the line>");
                     return true;
@@ -119,6 +119,5 @@ public class ItemCommand implements BaseCommand {
         }
         return false;
     }
-    
 
 }
