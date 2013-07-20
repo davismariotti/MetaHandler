@@ -6,3 +6,11 @@ commands:
   meta:
     description: All MetaHandler commands
     aliases: [mh, metahandler]
+permissions:
+  metahandler.*:
+    children:
+      metahandler.item: true
+      metahandler.skull: true
+      metahandler.map: true
+      metahandler.leather: true
+      metahandler.book: true
