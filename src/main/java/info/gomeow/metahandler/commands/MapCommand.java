@@ -11,8 +11,8 @@ import org.bukkit.inventory.meta.MapMeta;
 public class MapCommand implements BaseCommand {
 
     @Override
-    public boolean execute(Player p, Command cmdObj, String label, String cmd, LinkedList<String> args) {
-        ItemStack is = p.getItemInHand();
+    public boolean execute(Player player, Command cmdObj, String label, String cmd, LinkedList<String> args) {
+        ItemStack is = player.getItemInHand();
         if(is.getItemMeta() instanceof MapMeta) {
             MapMeta mm = (MapMeta) is.getItemMeta();
             if(cmd.equalsIgnoreCase("scaling")) {
@@ -23,21 +23,21 @@ public class MapCommand implements BaseCommand {
                     } else if(args.get(0).equalsIgnoreCase("false")) {
                         scale = false;
                     } else {
-                        p.sendMessage(ChatColor.RED + "Usage: /" + label + " map scaling <true/false>");
+                        player.sendMessage(ChatColor.RED + "Usage: /" + label + " map scaling <true/false>");
                         return true;
                     }
                     mm.setScaling(scale);
                     is.setItemMeta(mm);
-                    p.setItemInHand(is);
-                    p.sendMessage(ChatColor.GOLD + "Scaling set!");
+                    player.setItemInHand(is);
+                    player.sendMessage(ChatColor.GOLD + "Scaling set!");
                 } else {
-                    p.sendMessage(ChatColor.RED + "Usage: /" + label + " map scaling <true/false>");
+                    player.sendMessage(ChatColor.RED + "Usage: /" + label + " map scaling <true/false>");
                 }
             } else {
-                p.sendMessage(ChatColor.RED + "That is not a supported command!");
+                player.sendMessage(ChatColor.RED + "That is not a supported command!");
             }
         } else {
-            p.sendMessage(ChatColor.RED + "You must be holding a non-empty map to do that!");
+            player.sendMessage(ChatColor.RED + "You must be holding a non-empty map to do that!");
         }
         return false;
     }

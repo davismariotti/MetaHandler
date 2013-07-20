@@ -13,118 +13,171 @@ import org.bukkit.inventory.ItemStack;
 public class ItemCommand implements BaseCommand {
 
     @Override
-    public boolean execute(Player p, Command cmdObj, String label, String cmd, LinkedList<String> args) {
-        ItemStack is = p.getItemInHand();
+    public boolean execute(Player player, Command cmdObj, String label, String cmd, LinkedList<String> args) {
+        ItemStack is = player.getItemInHand();
         if(is.getTypeId() == 0) {
-            p.sendMessage(ChatColor.RED + "You must be holding an item!");
+            player.sendMessage(ChatColor.RED + "You must be holding an item!");
             return true;
         }
         if(cmd.equalsIgnoreCase("display")) {
-            if(args.size() >= 1) {
+            if(args.size() > 0) {
                 if(args.get(0).equalsIgnoreCase("set")) {
-                    if(args.size() >= 2) {
+                    if(args.size() > 1) {
                         StringBuilder sb = new StringBuilder();
                         for(String arg:args) {
-                            if(!arg.equals(args.get(0)))
+                            if(!arg.equals(args.get(0))) {
                                 sb.append(arg).append(" ");
+                            }
                         }
-                        p.setItemInHand(ItemUtil.setDisplayName(is, sb.toString().trim()));
-                        p.sendMessage(ChatColor.GOLD + "Display name changed!");
+                        player.setItemInHand(ItemUtil.setDisplayName(is, sb.toString().trim()));
+                        player.sendMessage(ChatColor.GOLD + "Display name changed!");
                     } else {
-                        p.sendMessage(ChatColor.RED + "Usage: /" + label.toLowerCase() + " item display set <name>");
+                        player.sendMessage(ChatColor.RED + "Usage: /" + label.toLowerCase() + " item display set <name>");
                     }
                 } else if(args.get(0).equalsIgnoreCase("clear")) {
-                    p.setItemInHand(ItemUtil.clearDisplayName(is));
-                    p.sendMessage(ChatColor.GOLD + "Display name cleared!");
+                    player.setItemInHand(ItemUtil.clearDisplayName(is));
+                    player.sendMessage(ChatColor.GOLD + "Display name cleared!");
                 } else {
-                    p.sendMessage(ChatColor.RED + "That is not a supported command!");
+                    player.sendMessage(ChatColor.RED + "Invalid command! Available Commands:");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item display set <Text> - Sets the display name.");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item display clear - Clears the display name.");
                 }
+            } else {
+                player.sendMessage(ChatColor.RED + "Invalid command! Available Commands:");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item display set <Text> - Sets the display name.");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item display clear - Clears the display name.");
             }
         } else if(cmd.equalsIgnoreCase("lore")) {
-            if(args.size() >= 2) {
-                int line = 0;
-                try {
-                    line = Integer.parseInt(args.get(0));
-                } catch(NumberFormatException nfe) {
-                    p.sendMessage(ChatColor.RED + "Line # must be a number!");
-                    p.sendMessage(ChatColor.RED + "Usage: /" + label + " item " + cmd.toLowerCase() + " <Line #> <Text for the line>");
-                    return true;
-                }
-                if(line >= 5) {
-                    p.sendMessage(ChatColor.RED + "You can only set lines 1-5 of the lore!");
-                    return true;
-                }
-                StringBuilder sb = new StringBuilder();
-                for(String arg:args) {
-                    if(arg != args.get(0))
-                        sb.append(arg).append(" ");
-                }
-                p.setItemInHand(ItemUtil.setLore(is, line, sb.toString().trim()));
-                p.sendMessage(ChatColor.GOLD + "Lore changed!");
-            } else {
-                p.sendMessage(ChatColor.RED + "Usage: /" + label + " item " + cmd.toLowerCase() + " <Line #> <Text for the line>");
-            }
-        } else if(cmd.equalsIgnoreCase("loreclr") || cmd.equalsIgnoreCase("loreclear")) {
-            p.setItemInHand(ItemUtil.clearLore(is));
-            p.sendMessage(ChatColor.GOLD + "Lore cleared!");
-        } else if(cmd.equalsIgnoreCase("enchant")) {
-            if(args.size() == 2) {
-                Enchantment e = ItemUtil.getEnchantment(args.get(0));
-                if(e == null) {
-                    StringBuilder enchantments = new StringBuilder();
-                    for(String ench:ItemUtil.getEnchantments()) {
-                        enchantments.append(ench.toLowerCase().replace('_', '-')).append(", ");
+            if(args.size() > 0) {
+                if(args.get(0).equalsIgnoreCase("set")) {
+                    if(args.size() > 2) {
+                        int line = 0;
+                        try {
+                            line = Integer.parseInt(args.get(1));
+                        } catch(NumberFormatException nfe) {
+                            player.sendMessage(ChatColor.RED + "Line # must be a number!");
+                            player.sendMessage(ChatColor.RED + "Usage: /" + label + " item lore set <Line #> <Text>");
+                            return true;
+                        }
+                        if(line >= 5) {
+                            player.sendMessage(ChatColor.RED + "You can only set lines 1-5 of the lore!");
+                            return true;
+                        }
+                        StringBuilder sb = new StringBuilder();
+                        for(String arg:args) {
+                            if(arg != args.get(1) && arg != args.get(0)) {
+                                sb.append(arg).append(" ");
+                            }
+                        }
+                        player.setItemInHand(ItemUtil.setLore(is, line, sb.toString().trim()));
+                        player.sendMessage(ChatColor.GOLD + "Lore changed!");
+                    } else {
+                        player.sendMessage(ChatColor.RED + "Usage: /" + label + " item lore set <Line #> <Text>");
                     }
-                    p.sendMessage(ChatColor.RED + "Invalid enchantment!");
-                    p.sendMessage(ChatColor.GOLD + "Valid enchantments: " + enchantments.toString().substring(0, enchantments.toString().length() - 2));
-                    return true;
-                }
-                int level = 0;
-                try {
-                    level = Integer.parseInt(args.get(1));
-                } catch(NumberFormatException nfe) {
-                    p.sendMessage(ChatColor.RED + "Enchantment level must be a number!");
-                    p.sendMessage(ChatColor.RED + "Usage: /" + label + " item <Enchantment> <level>");
-                    return true;
-                }
-                is.addUnsafeEnchantment(e, level);
-                p.setItemInHand(is);
-                p.sendMessage(ChatColor.GOLD + "Added enchantment!");
-            } else {
-                p.sendMessage(ChatColor.GOLD + "/" + label + " item enchant <enchantment> <level>");
-            }
-        } else if(cmd.equalsIgnoreCase("enchantdel")) {
-            if(args.size() == 1) {
-                Enchantment e = ItemUtil.getEnchantment(args.get(0));
-                if(e == null) {
-                    StringBuilder enchantments = new StringBuilder();
-                    for(String ench:ItemUtil.getEnchantments()) {
-                        enchantments.append(ench.toLowerCase().replace('_', '-')).append(", ");
+                } else if(args.get(0).equalsIgnoreCase("del")) {
+                    if(args.size() > 1) {
+                        int line = 0;
+                        try {
+                            line = Integer.parseInt(args.get(1));
+                        } catch(NumberFormatException nfe) {
+                            player.sendMessage(ChatColor.RED + "Line # must be a number!");
+                            player.sendMessage(ChatColor.RED + "Usage: /" + label + " item lore del <Line #>");
+                            return true;
+                        }
+                        if(line >= 5) {
+                            player.sendMessage(ChatColor.RED + "You can only clear lines 1-5 of the lore!");
+                            return true;
+                        }
+                        player.setItemInHand(ItemUtil.setLore(is, line, ""));
+                        player.sendMessage(ChatColor.GOLD + "Line cleared!");
+                    } else {
+                        player.sendMessage(ChatColor.RED + "Usage: /" + label + " item lore del <Line #>");
                     }
-                    p.sendMessage(ChatColor.RED + "Invalid enchantment!");
-                    p.sendMessage(ChatColor.GOLD + "Valid enchantments: " + enchantments.toString().substring(0, enchantments.toString().length() - 2));
-                    return true;
-                }
-                if(is.containsEnchantment(e)) {
-                    is.removeEnchantment(e);
-                    p.sendMessage(ChatColor.GOLD + "Removed enchantment!");
+                } else if(args.get(0).equalsIgnoreCase("clear")) {
+                    player.setItemInHand(ItemUtil.clearLore(is));
+                    player.sendMessage(ChatColor.GOLD + "Lore cleared!");
                 } else {
-                    p.sendMessage(ChatColor.RED + "That enchantment is not on the item!");
+                    player.sendMessage(ChatColor.RED + "Invalid command! Available Commands:");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item lore set <Line #> <Text> - Sets the lore on that line.");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item lore del <Line #> - Clears the lore on that line.");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item lore clear - Clears the lore.");
                 }
             } else {
-                p.sendMessage(ChatColor.RED + "/" + label + " item enchantdel - Removes the specified item from the item.");
+                player.sendMessage(ChatColor.RED + "Invalid command! Available Commands:");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item lore set <Line #> <Text> - Sets the lore on that line.");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item lore del <Line #> - Clears the lore on that line.");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item lore clear - Clears the lore.");
             }
-        } else if(cmd.equalsIgnoreCase("enchantclr") || cmd.equalsIgnoreCase("enchantclear")) {
-            p.setItemInHand(ItemUtil.clearEnchantments(is));
-            p.sendMessage(ChatColor.GOLD + "Enchantments cleared!");
-        }
-        else if(cmd.equalsIgnoreCase("clear")) {
-            p.setItemInHand(ItemUtil.clearMeta(is));
-            p.sendMessage(ChatColor.GOLD + "Item Meta cleared!");
+        } else if(cmd.equalsIgnoreCase("enchant")) {
+            if(args.size() > 0) {
+                if(args.get(0).equalsIgnoreCase("set")) {
+                    if(args.size() > 2) {
+                        Enchantment enchantment = ItemUtil.getEnchantment(args.get(1));
+                        if(enchantment == null) {
+                            StringBuilder enchantments = new StringBuilder();
+                            for(String ench:ItemUtil.getEnchantments()) {
+                                enchantments.append(ench.toLowerCase().replace('_', '-')).append(", ");
+                            }
+                            player.sendMessage(ChatColor.RED + "Invalid enchantment!");
+                            player.sendMessage(ChatColor.GOLD + "Valid enchantments: " + enchantments.toString().substring(0, enchantments.toString().length() - 2));
+                            return true;
+                        }
+                        int level = 0;
+                        try {
+                            level = Integer.parseInt(args.get(2));
+                        } catch(NumberFormatException nfe) {
+                            player.sendMessage(ChatColor.RED + "Enchantment level must be a number!");
+                            player.sendMessage(ChatColor.RED + "Usage: /" + label + " item <Enchantment> <level>");
+                            return true;
+                        }
+                        is.addUnsafeEnchantment(enchantment, level);
+                        player.setItemInHand(is);
+                        player.sendMessage(ChatColor.GOLD + "Added enchantment!");
+                    } else {
+                        player.sendMessage(ChatColor.RED + "Usage: /" + label + " item <Enchantment> <level>");
+                    }
+                } else if(args.get(0).equalsIgnoreCase("del")) {
+                    if(args.size() > 1) {
+                        Enchantment e = ItemUtil.getEnchantment(args.get(1));
+                        if(e == null) {
+                            StringBuilder enchantments = new StringBuilder();
+                            for(String ench:ItemUtil.getEnchantments()) {
+                                enchantments.append(ench.toLowerCase().replace('_', '-')).append(", ");
+                            }
+                            player.sendMessage(ChatColor.RED + "Invalid enchantment!");
+                            player.sendMessage(ChatColor.GOLD + "Valid enchantments: " + enchantments.toString().substring(0, enchantments.toString().length() - 2));
+                            return true;
+                        }
+                        if(is.containsEnchantment(e)) {
+                            is.removeEnchantment(e);
+                            player.sendMessage(ChatColor.GOLD + "Removed enchantment!");
+                        } else {
+                            player.sendMessage(ChatColor.RED + "That enchantment is not on the item!");
+                        }
+                    } else {
+                        player.sendMessage(ChatColor.RED + "/" + label + " item enchantdel - Removes the specified item from the item.");
+                    }
+                } else if(args.get(0).equalsIgnoreCase("clear")) {
+                    player.setItemInHand(ItemUtil.clearEnchantments(is));
+                    player.sendMessage(ChatColor.GOLD + "Enchantments cleared!");
+                } else {
+                    player.sendMessage(ChatColor.RED + "Invalid command! Available Commands:");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item enchant set <enchantment> <level> - Adds the specified enchantment.");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item enchant del - Removes the specified enchantment.");
+                    player.sendMessage(ChatColor.GOLD + "/" + label + " item enchant clear - Clears the enchantments.");
+                }
+            } else {
+                player.sendMessage(ChatColor.RED + "Invalid command! Available Commands:");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item enchant set <enchantment> <level> - Adds the specified enchantment.");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item enchant del - Removes the specified enchantment.");
+                player.sendMessage(ChatColor.GOLD + "/" + label + " item enchant clear - Clears the enchantments.");
+            }
+        } else if(cmd.equalsIgnoreCase("clear")) {
+            player.setItemInHand(ItemUtil.clearMeta(is));
+            player.sendMessage(ChatColor.GOLD + "Item Meta cleared!");
         } else {
-            p.sendMessage(ChatColor.RED + "That is not a supported command!");
+            player.sendMessage(ChatColor.RED + "That is not a supported command!");
         }
         return false;
     }
-
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,7 +40,7 @@ public class ItemUtil {
 
     public static ItemStack setDisplayName(ItemStack is, String data) {
         ItemMeta im = is.getItemMeta();
-        im.setDisplayName(data);
+        im.setDisplayName(ChatColor.translateAlternateColorCodes('&', data));
         is.setItemMeta(im);
         return is;
     }
@@ -55,14 +56,14 @@ public class ItemUtil {
         ItemMeta im = is.getItemMeta();
         if(im.hasLore()) {
             List<String> lore = im.getLore();
-            while (lore.size() < line) {
+            while(lore.size() < line) {
                 lore.add(" ");
             }
-            lore.set(line - 1, data);
+            lore.set(line - 1, ChatColor.translateAlternateColorCodes('&', data));
             im.setLore(lore);
         } else {
             String[] loreArray = new String[line];
-            loreArray[line - 1] = data;
+            loreArray[line - 1] = ChatColor.translateAlternateColorCodes('&', data);
             im.setLore(Arrays.asList(loreArray));
         }
         is.setItemMeta(trimLore(im));
@@ -70,10 +71,9 @@ public class ItemUtil {
     }
 
     public static ItemMeta trimLore(ItemMeta im) {
-        List<String> lore = im.getLore();
-        LinkedList<String> list = new LinkedList<String>(lore);
-        while (list.peekLast().equalsIgnoreCase(" ")) {
-            list.pollLast();
+        LinkedList<String> lore = new LinkedList<String>(im.getLore());
+        while(lore.getLast().equalsIgnoreCase("")) {
+            lore.pollLast();
         }
         im.setLore(lore);
         return im;
@@ -102,9 +102,6 @@ public class ItemUtil {
             } else {
                 if(ench.contains("_")) {
                     e = getEnchantment(ench.replace("_", ""));
-                }
-                if(e == null) {
-                    return null;
                 }
             }
         }

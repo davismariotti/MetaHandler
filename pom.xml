@@ -2,14 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>info.gomeow</groupId>
     <artifactId>metahandler</artifactId>
-    <version>1.0</version>
-    <name>NostalgicBoneMeal</name>
-    <repositories>
-        <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public</url>
-        </repository>
-    </repositories>
+    <version>1.0.0</version>
+    <name>MetaHandler</name>
     <build>
 		<defaultGoal>clean package install</defaultGoal>
         <finalName>MetaHandler</finalName>
@@ -59,4 +53,10 @@
   			<version>LATEST</version>
   		</dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/content/groups/public</url>
+        </repository>
+    </repositories>
 </project>
