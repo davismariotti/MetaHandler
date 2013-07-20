@@ -3,6 +3,6 @@ name: MetaHandler
 version: 1.0.0
 
 commands:
-  mh:
+  meta:
     description: All MetaHandler commands
-    aliases: [meta, metahandler]
+    aliases: [mh, metahandler]
