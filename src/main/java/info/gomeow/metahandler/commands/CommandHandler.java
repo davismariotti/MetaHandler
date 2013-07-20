@@ -11,11 +11,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Commands implements CommandExecutor {
+public class CommandHandler implements CommandExecutor {
 
     MetaHandler plugin;
 
-    public Commands(MetaHandler mh) {
+    public CommandHandler(MetaHandler mh) {
         plugin = mh;
     }
 

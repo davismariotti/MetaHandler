@@ -1,6 +1,6 @@
 package info.gomeow.metahandler;
 
-import info.gomeow.metahandler.commands.Commands;
+import info.gomeow.metahandler.commands.CommandHandler;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class MetaHandler extends JavaPlugin {
 
-    Commands commands;
+    CommandHandler commands;
 
     public void onEnable() {
         try {
@@ -17,8 +17,8 @@ public class MetaHandler extends JavaPlugin {
         } catch(IOException e) {
             e.printStackTrace();
         }
-        commands = new Commands(this);
-        getCommand("mh").setExecutor(commands);
+        commands = new CommandHandler(this);
+        getCommand("meta").setExecutor(commands);
     }
 
 }
