@@ -126,6 +126,9 @@ public class CommandHandler implements CommandExecutor {
                         }
                     }
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "That is not a valid command!");
+                sender.sendMessage(ChatColor.RED + "Please type /" + label + " to see the help menu!");
             }
         }
         return true;
